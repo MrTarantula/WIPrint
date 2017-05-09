@@ -1,0 +1,55 @@
+{
+  "manifestVersion": 1,
+  "id": "print",
+  "version": "0.1.0",
+  "name": "WIPrint",
+  "scopes": [ "vso.work" ],
+  "description": "Print work items from query toolbar or context menu.",
+  "publisher": "me",
+  "icons": {
+    "default": "img/logo.png"
+  },
+  "targets": [
+    {
+      "id": "Microsoft.TeamFoundation.Server"
+    }
+  ],
+  "files": [
+    {
+      "path": "img",
+      "addressable": true
+    },
+    {
+      "path": "build",
+      "addressable": true
+    },
+    {
+      "path": "index.html",
+      "addressable": true
+    }
+  ],
+  "contributions": [
+    {
+      "id": "print-work-item",
+      "type": "ms.vss-web.action",
+      "description": "Print a work item.",
+      "targets": [
+        "ms.vss-work-web.work-item-context-menu"
+      ],
+      "properties": {
+        "uri": "index.html"
+      }
+    },
+    {
+      "id": "print-query-toolbar",
+      "type": "ms.vss-web.action",
+      "description": "Print a work item.",
+      "targets": [
+        "ms.vss-work-web.work-item-query-results-toolbar-menu"
+      ],
+      "properties": {
+        "uri": "index.html"
+      }
+    }
+  ]
+}

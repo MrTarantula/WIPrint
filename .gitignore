@@ -1,0 +1,8 @@
+node_modules
+scripts/*.js
+typings
+dist
+build
+test
+.baseDir.ts
+*.vsix

@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Title</title>
+    <script src="build/VSS.SDK.min.js"></script>
+    <style type="text/css">
+        body {
+            font-family: "-apple-system",BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Ubuntu,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+            font-size: 100%
+        }
+        .item {
+            page-break-after: always;
+        }
+
+
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+        // Initialize framework
+        VSS.init({
+            explicitNotifyLoaded: true,
+            usePlatformScripts: true,
+            moduleLoaderConfig: {
+                paths: {
+                    "moment": "build/moment.min"
+                }
+            }
+        });
+
+        // Load main entry point for extension
+        VSS.require(["build/app"], function (app) {
+            // Loading succeeded
+            VSS.notifyLoadSucceeded();
+        });
+    </script>
+    <div id="workItems"></div>
+</body>
+</html>

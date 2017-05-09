@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "moduleResolution": "node",
+    "target": "es5",
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "rootDir": "./scripts"
+  },
+    "filesGlob": [
+        "./scripts/**/*.ts",
+        "!**/*.tests.ts",
+        "./typings/index.d.ts"
+    ],
+    "files": [
+        "scripts/app.ts",
+        "typings/index.d.ts"
+    ]
+}
