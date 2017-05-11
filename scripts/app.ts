@@ -1,9 +1,10 @@
-/// <reference path="../typings/index.d.ts" />
+import WITClient = require("TFS/WorkItemTracking/RestClient");
+import Models = require("TFS/WorkItemTracking/Contracts");
+import moment = require("moment");
 
-import WitClient = require("TFS/WorkItemTracking/RestClient");
-import moment = require('moment');
-
-let extensionContext = VSS.getExtensionContext();
+const extensionContext = VSS.getExtensionContext();
+const vssContext = VSS.getWebContext();
+const client = WITClient.getClient();
 
 const fields = [
     "System.ID",
@@ -15,10 +16,10 @@ const fields = [
     "System.WorkItemType",
     "System.CreatedDate",
     "Microsoft.VSTS.Scheduling.DueDate",
-    "Microsoft.VSTS.Scheduling.StartDate"
+    "Microsoft.VSTS.Scheduling.StartDate",
 ];
 
-interface IQueryObject {
+interface IQuery {
     id: string;
     isPublic: boolean;
     name: string;
@@ -29,93 +30,80 @@ interface IQueryObject {
 interface IActionContext {
     id?: number;
     workItemId?: number;
-    query?: IQueryObject;
+    query?: IQuery;
     queryText?: string;
     ids?: number[];
     workItemIds?: number[];
     columns?: string[];
 }
 
-var printWorkItems = {
+const printWorkItems = {
     getMenuItems: (context: any) => {
-
-        var text = 'Print';
+        let menuItemText = "Print";
         if (context.workItemIds.length > 1) {
-            text = 'Print Selection';
+            menuItemText = "Print Selection";
         }
 
-        return [<IContributedMenuItem>{
-            title: "Print",
-            text: text,
-            icon: "img/print.png",
+        return [{
             action: (actionContext: IActionContext) => {
-                const client = WitClient.getClient();
                 const wids = context.workItemIds || [actionContext.workItemId];
 
-                return client.getWorkItems(wids, fields).then(
-                    function (workItems) {
-                        print(workItems);
-                    }
-                );
-            }
-        }];
-    }
+                return client.getWorkItems(wids, fields).then((workItems) => print(workItems));
+            },
+            icon: "img/print14.png",
+            text: menuItemText,
+            title: menuItemText,
+        } as IContributedMenuItem];
+    },
 };
 
-var printQueryToolbar = {
+const printQueryToolbar = {
     getMenuItems: (context: any) => {
-        return [<IContributedMenuItem>{
-            title: "Print All",
-            text: "Print All",
-            icon: "img/print.png",
-            showText: true,
+        return [{
             action: (actionContext: IActionContext) => {
-                const client = WitClient.getClient();
-                const VSSContext = VSS.getWebContext();
-
-                return client.queryByWiql({ query: actionContext.query.wiql }, VSSContext.project.name, VSSContext.team.name).then(function (result) {
-
-                    if (!result.workItemRelations) {
-                        var wids = result.workItems.map(function (wi) { return wi.id });
-                    }
-                    else {
-                        var wids = result.workItemRelations.map(function (wi) { return wi.target.id });
+                return client.queryByWiql(
+                    { query: actionContext.query.wiql }, vssContext.project.name, vssContext.team.name,
+                ).then((result) => {
+                    let wids = [];
+                    if (result.workItemRelations) {
+                        wids = result.workItemRelations.map((wi) => wi.target.id);
+                    } else {
+                        wids = result.workItems.map((wi) => wi.id);
                     }
 
-                    client.getWorkItems(wids, fields).then(
-                        function (workItems) {
-                            print(workItems);
-                        }
-                    );
+                    client.getWorkItems(wids, fields).then((workItems) => print(workItems));
                 });
-            }
-        }];
-    }
+            },
+            icon: "img/print16.png",
+            text: "Print All",
+            title: "Print All",
+        } as IContributedMenuItem];
+    },
 };
 
-function print(workItems: any[]) {
-    var insertText = '';
+function print(workItems: Models.WorkItem[]): void {
+    let insertText = "";
 
     workItems.forEach((item, index) => {
         insertText +=
-        `
+            `
         <div class="item">
             <h2>${item.fields["System.WorkItemType"]} ${item.id} - ${item.fields["System.Title"]}</h2>
-            <span>Assigned to: ${item.fields["System.AssignedTo"] ? item.fields["System.AssignedTo"] : "Unassigned"}</span><br>
+            <span>Assigned to: ${item.fields["System.AssignedTo"] ?
+                item.fields["System.AssignedTo"] : "Unassigned"}</span><br>
             <span>State: ${item.fields["System.State"]}</span><br>
             <span>Created: ${moment(item.fields["System.CreatedDate"]).format("M/D/YYYY")}</span><br>
-            <span>Started: ${item.fields["Microsoft.VSTS.Scheduling.StartDate"] ? moment(item.fields["Microsoft.VSTS.Scheduling.StartDate"]).format("M/D/YYYY"): "None"}</span><br>
-            <span>Due: ${item.fields["Microsoft.VSTS.Scheduling.DueDate"] ? moment(item.fields["Microsoft.VSTS.Scheduling.DueDate"]).format("M/D/YYYY") : "None"}</span><br>
             <h3>Description</h3>
-            <p>${item.fields["System.Description"]}</p>
+            <p>${item.fields["System.Description"] ?
+                item.fields["System.Description"] : "No Description"}</p>
             <h3>Conversation</h3>
-            <p>${item.fields["System.History"] ? item.fields["System.History"] : "None" }</p>
+            <p>${item.fields["System.History"] ? item.fields["System.History"] : "None"}</p>
         </div>
         `;
     });
 
-    $('#workItems').html(insertText);
-    window.focus(); //needed for IE
+    $("#workitems").html(insertText);
+    window.focus(); // needed for IE
     window.print();
 }
 

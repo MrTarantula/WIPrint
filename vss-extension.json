@@ -1,21 +1,50 @@
 {
   "manifestVersion": 1,
-  "id": "print",
-  "version": "0.1.0",
-  "name": "WIPrint",
-  "scopes": [ "vso.work" ],
+  "id": "wiprint",
+  "version": "1.0.0",
+  "name": "Work Item Print",
+  "scopes": ["vso.work"],
   "description": "Print work items from query toolbar or context menu.",
-  "publisher": "me",
+  "publisher": "mrtarantula",
+  "public": true,
   "icons": {
     "default": "img/logo.png"
   },
-  "targets": [
-    {
-      "id": "Microsoft.TeamFoundation.Server"
-    }
+  "targets": [{
+    "id": "Microsoft.VisualStudio.Services"
+  }],
+  "categories": [
+    "Plan and track"
   ],
-  "files": [
-    {
+  "tags": [
+    "print",
+    "work items"
+  ],
+  "content": {
+    "details": {
+      "path": "details.md"
+    },
+    "license": {
+      "path": "LICENSE"
+    }
+  },
+  "links": {
+    "support": {
+      "uri": "https://github.com/mrtarantula/wiprint/issues"
+    },
+    "repository": {
+      "uri": "https://github.com/mrtarantula/wiprint"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/mrtarantula/wiprint"
+  },
+  "branding": {
+    "color": "rgb(255, 255, 255)",
+    "theme": "light"
+  },
+  "files": [{
       "path": "img",
       "addressable": true
     },
@@ -28,8 +57,7 @@
       "addressable": true
     }
   ],
-  "contributions": [
-    {
+  "contributions": [{
       "id": "print-work-item",
       "type": "ms.vss-web.action",
       "description": "Print a work item.",

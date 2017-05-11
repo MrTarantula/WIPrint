@@ -19,11 +19,10 @@
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-requirejs": "^1.1.0",
     "mocha": "^2.5.3",
-    "moment": "^2.18.1",
     "requirejs": "^2.3.2",
+    "tslint": "^5.2.0",
     "typescript": "^2.0.7",
-    "typings": "^1.5.0",
-    "vss-web-extension-sdk": "^1.108.0"
+    "typings": "^1.5.0"
   },
   "name": "wi-print",
   "private": true,
@@ -32,6 +31,7 @@
     "postinstall": "typings install"
   },
   "dependencies": {
-    "vss-web-extension-sdk": "^2.115.0"
+    "moment": "^2.18.1",
+    "vss-web-extension-sdk": "^1.110.0"
   }
 }
