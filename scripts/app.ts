@@ -40,7 +40,7 @@ interface IActionContext {
 const printWorkItems = {
     getMenuItems: (context: any) => {
         let menuItemText = "Print";
-        if (context.workItemIds.length > 1) {
+        if (context.workItemIds && context.workItemIds.length > 1) {
             menuItemText = "Print Selection";
         }
 
