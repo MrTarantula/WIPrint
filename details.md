@@ -1,6 +1,6 @@
 # Work Item Print
 
-Visual Studio Team Services and Team Foundation Server don't make it easy to print work items. This extension will allow printing of single work items, selected multiple work items, or all items in a query. Limt is ~330 work items at once.
+Visual Studio Team Services and Team Foundation Server don't make it easy to print work items. This extension will allow printing of single work items, selected multiple work items, or all items in a query. Limit is ~330 work items at once.
 
 ## Print a Single Work Item
 
