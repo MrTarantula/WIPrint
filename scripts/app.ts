@@ -17,6 +17,7 @@ const fields = [
     "System.CreatedDate",
     "Microsoft.VSTS.Scheduling.DueDate",
     "Microsoft.VSTS.Scheduling.StartDate",
+    "Microsoft.VSTS.Common.AcceptanceCriteria",
 ];
 
 interface IQuery {
@@ -64,14 +65,13 @@ const printQueryToolbar = {
                 return client.queryByWiql(
                     { query: actionContext.query.wiql }, vssContext.project.name, vssContext.team.name,
                 ).then((result) => {
-                    let wids = [];
                     if (result.workItemRelations) {
-                        wids = result.workItemRelations.map((wi) => wi.target.id);
+                        return result.workItemRelations.map((wi) => wi.target.id);
                     } else {
-                        wids = result.workItems.map((wi) => wi.id);
+                        return result.workItems.map((wi) => wi.id);
                     }
-
-                    client.getWorkItems(wids, fields).then((workItems) => print(workItems));
+                }).then((wids) => {
+                    return client.getWorkItems(wids, fields).then((workItems) => print(workItems));
                 });
             },
             icon: "img/print16.png",
@@ -96,13 +96,16 @@ function print(workItems: Models.WorkItem[]): void {
             <h3>Description</h3>
             <p>${item.fields["System.Description"] ?
                 item.fields["System.Description"] : "No Description"}</p>
+            <h3>Acceptance Criteria</h3>
+            <p>${item.fields["Microsoft.VSTS.Common.AcceptanceCriteria"] ?
+                item.fields["Microsoft.VSTS.Common.AcceptanceCriteria"] : "No Acceptance Criteria"}</p>
             <h3>Conversation</h3>
             <p>${item.fields["System.History"] ? item.fields["System.History"] : "None"}</p>
         </div>
         `;
     });
 
-    $("#workitems").html(insertText);
+    document.getElementById("workitems").innerHTML = insertText;
     window.focus(); // needed for IE
     window.print();
 }

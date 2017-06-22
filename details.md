@@ -33,3 +33,10 @@ Run a query, then select `Print All` from the toolbar:
 * Better print template
 
 ### [Code contributions are welcome](https://github.com/mrtarantula/wiprint)
+
+## Changelog
+
+### v1.0.3
+
+* Added `Acceptance Criteria` field
+* Minor code improvements

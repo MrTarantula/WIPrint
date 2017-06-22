@@ -21,7 +21,7 @@
     "mocha": "^2.5.3",
     "requirejs": "^2.3.2",
     "tslint": "^5.2.0",
-    "typescript": "^2.0.7",
+    "typescript": "^2.1.0",
     "typings": "^1.5.0"
   },
   "name": "wi-print",
@@ -32,6 +32,6 @@
   },
   "dependencies": {
     "moment": "^2.18.1",
-    "vss-web-extension-sdk": "^1.110.0"
+    "vss-web-extension-sdk": "^2.117.0"
   }
 }
