@@ -36,6 +36,10 @@ Run a query, then select `Print All` from the toolbar:
 
 ## Changelog
 
+### v1.0.4
+
+* Removed explicitly set fields
+
 ### v1.0.3
 
 * Added `Acceptance Criteria` field
