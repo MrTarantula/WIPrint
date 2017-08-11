@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../lib/css/fabric.min.css"></link>
+    <link rel="stylesheet" href="../lib/css/fabric.components.min.css"></link>
+    <script src="../lib/VSS.SDK.min.js"></script>
+    <script src="../lib/js/fabric.min.js"></script>
+    <style type="text/css">
+        body {
+            font-size: 100%;
+        }
+
+        .ms-List {
+            height: 600px;
+            overflow: auto;
+            border: 1px solid #ccc;
+        }
+
+        .ms-ListItem.selected {
+            background-color: #deecf9;
+        }
+
+        .ms-ListItem.selected .ms-ListItem-primaryText {
+            font-weight: 600;
+        }
+
+        .ms-ListItem.selected .ms-ListItem-secondaryText {
+            font-weight: 600;
+        }
+
+        .ms-ListItem:hover {
+            background-color: #eff6fc;
+        }
+
+        .ms-ListItem.selected:hover {
+            background-color: #deecf9;
+        }
+
+        .ms-ListItem-image {
+            height: 40px;
+            width: 40px;
+        }
+
+        .ms-font-xxl {
+            padding: 7px;
+        }
+
+        #saver {
+            padding-top: 268px;
+            text-align: center;
+        }
+
+        #selector {
+            padding-top: 268px;
+            text-align: center;
+        }
+
+        #mover {
+            padding-top: 236px;
+            text-align: center;
+        }
+
+        #helper {
+            padding: 10px;
+            text-align: center;
+        }
+
+        #helpCallout {
+            width: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <script type="text/javascript">
+        // Initialize framework
+        VSS.init({
+            explicitNotifyLoaded: true,
+            usePlatformScripts: true,
+            usePlatformStyles: true,
+            moduleLoaderConfig: {
+                paths: {
+                    "fabric": "lib/js/fabric.min"
+                }
+            }
+        });
+        // Load main entry point for extension
+        VSS.require(["dist/wiprint-admin"], function (admin) {
+            // Loading succeeded
+            VSS.notifyLoadSucceeded();
+        });
+    </script>
+    <div id="wiadmin" class="ms-Grid">
+        <div class="ms-Grid-row">
+            <div id="helper" class="ms-Grid-col ms-u-sm12">
+                <div id="helpCallout" class="ms-Callout ms-Callout--close is-hidden">
+                    <div class="ms-Callout-main">
+                        <button class="ms-Callout-close">
+                            <i class="ms-Icon ms-Icon--Clear"></i>
+                        </button>
+                        <div class="ms-Callout-header">
+                            <p class="ms-Callout-title">How to Print Work Items</p>
+                        </div>
+                        <div class="ms-Callout-inner">
+                            <div class="ms-Callout-content">
+                                <p class="ms-font-m">First, the print template will need to be configured. Select the work item type below and
+                                    configure which fields you want to print, and the order the fields should be in. Then
+                                    click
+                                    <span class="ms-fontWeight-semibold">Save</span>.
+                                </p>
+                                <p class="ms-font-m">Once configured, go to the backlog and right-click on a work item and select <span class="ms-fontWeight-semibold">Print</span>.
+                                    Multiple work items can be selected as well.
+                                </p>
+                                <p class="ms-font-m">Work items can also be printed from queries. An entire query can be printed by right-clicking
+                                    on the query and selecting <span class="ms-fontWeight-semibold">Print All</span>, or clicking
+                                    <span class="ms-fontWeight-semibold">Print All</span> at the top of the query toolbar
+                                    (TFS 2017 or higher only).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="helpButton" class="ms-Button ms-Button--hero ms-Button--small">
+                        <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--Info2"></i></span>
+                        <span class="ms-Button-label">How do I print work items?</span>
+                    </button>
+            </div>
+        </div>
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-u-hiddenSm ms-u-md1"></div>
+            <div id="types" class="ms-Grid-col ms-u-sm12 ms-u-md3">
+                <div class="ms-font-xxl">Work Item Type</div>
+                <ul id="typesList" class="ms-List"></ul>
+            </div>
+            <div id="saver" class="ms-Grid-col ms-u-sm12 ms-u-md1">
+                <button type="button" id="save" class="ms-Button ms-Button--primary">
+                    <span class="ms-Button-label">Save</span>
+                </button>
+                <button type="button" id="cancel" class="ms-Button">
+                    <span class="ms-Button-label">Undo</span>
+                </button>
+            </div>
+            <div id="allGrid" class="ms-Grid-col ms-u-sm12 ms-u-md2">
+                <div class="ms-font-xxl">All Fields</div>
+                <ul id="allList" class="ms-List"></ul>
+            </div>
+            <div id="selector" class="ms-Grid-col ms-u-sm12 ms-u-md1">
+                <button type="button" class="ms-Button" id="push"><i class="ms-Icon ms-Icon--ChevronRight" aria-hidden="true"></i></span></button>
+                <button type="button" class="ms-Button" id="pop"><i class="ms-Icon ms-Icon--ChevronLeft" aria-hidden="true"></i></button>
+            </div>
+            <div id="selectedGrid" class="ms-Grid-col ms-u-sm12 ms-u-md2">
+                <div class="ms-font-xxl">Selected Fields</div>
+                <ul id="selectedList" class="ms-List"></ul>
+            </div>
+            <div id="mover" class="ms-Grid-col ms-u-sm12 ms-u-md1">
+                <button type="button" class="ms-Button" id="top"><i class="ms-Icon ms-Icon--DoubleChevronUp" aria-hidden="true"></i></button>
+                <button type="button" class="ms-Button" id="up"><i class="ms-Icon ms-Icon--ChevronUp" aria-hidden="true"></i></button>
+                <button type="button" class="ms-Button" id="down"><i class="ms-Icon ms-Icon--ChevronDown" aria-hidden="true"></i></button>
+                <button type="button" class="ms-Button" id="bottom"><i class="ms-Icon ms-Icon--DoubleChevronDown" aria-hidden="true"></i></button>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    var ButtonElements = document.querySelectorAll(".ms-Button");
+    for (var i = 0; i < ButtonElements.length; i++) {
+        new fabric['Button'](ButtonElements[i], function () {
+            // Insert Event Here
+        });
+    }
+
+    var ListItemElements = document.querySelectorAll(".ms-ListItem");
+    for (var j = 0; j < ListItemElements.length; j++) {
+        new fabric['ListItem'](ListItemElements[j]);
+    }
+
+    var helpButton = document.getElementById("helpButton");
+    var helpCallout = document.getElementById("helpCallout");
+    new fabric['Callout'](
+        helpCallout,
+        helpButton,
+        "bottom"
+    );
+</script>
+
+</html>

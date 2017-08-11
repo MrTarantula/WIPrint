@@ -1,14 +1,17 @@
 {
   "manifestVersion": 1,
   "id": "wiprint",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "name": "Work Item Print",
-  "scopes": ["vso.work"],
+  "scopes": [
+    "vso.work",
+    "vso.extension.data_write"
+  ],
   "description": "Print work items from query toolbar or context menu.",
   "publisher": "mrtarantula",
-  "public": true,
+  "public": false,
   "icons": {
-    "default": "img/logo.png"
+    "default": "static/img/logo.png"
   },
   "targets": [{
     "id": "Microsoft.VisualStudio.Services"
@@ -45,16 +48,40 @@
     "theme": "light"
   },
   "files": [{
-      "path": "img",
+      "path": "static/img",
       "addressable": true
     },
     {
-      "path": "build",
+      "path": "dist",
       "addressable": true
     },
     {
-      "path": "wiprint.html",
+      "path": "static/wiprint.html",
       "addressable": true
+    },
+    {
+      "path": "static/wiprint-admin.html",
+      "addressable": true
+    },
+    {
+      "path": "node_modules/vss-web-extension-sdk/lib",
+      "addressable": true,
+      "packagePath": "lib"
+    },
+    {
+      "path": "node_modules/moment/min",
+      "addressable": true,
+      "packagePath": "lib"
+    },
+    {
+      "path": "node_modules/office-ui-fabric-js/dist/js",
+      "addressable": true,
+      "packagePath": "lib/js"
+    },
+    {
+      "path": "node_modules/office-ui-fabric-js/dist/css",
+      "addressable": true,
+      "packagePath": "lib/css"
     }
   ],
   "contributions": [{
@@ -65,7 +92,18 @@
         "ms.vss-work-web.work-item-context-menu"
       ],
       "properties": {
-        "uri": "wiprint.html"
+        "uri": "static/wiprint.html"
+      }
+    },
+    {
+      "id": "print-query-menu",
+      "type": "ms.vss-web.action",
+      "description": "Print a work item.",
+      "targets": [
+        "ms.vss-work-web.work-item-query-menu"
+      ],
+      "properties": {
+        "uri": "static/wiprint.html"
       }
     },
     {
@@ -76,7 +114,19 @@
         "ms.vss-work-web.work-item-query-results-toolbar-menu"
       ],
       "properties": {
-        "uri": "wiprint.html"
+        "uri": "static/wiprint.html"
+      }
+    },
+    {
+      "id": "wiprint-admin",
+      "type": "ms.vss-web.hub",
+      "targets": [
+        "ms.vss-work-web.work-hub-group"
+      ],
+      "properties": {
+        "name": "Work Item Print",
+        "order": 9999,
+        "uri": "static/wiprint-admin.html"
       }
     }
   ]

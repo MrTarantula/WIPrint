@@ -3,17 +3,13 @@
     "module": "amd",
     "moduleResolution": "node",
     "target": "es5",
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "rootDir": "./scripts"
-  },
-    "filesGlob": [
-        "./scripts/**/*.ts",
-        "!**/*.tests.ts",
-        "./typings/index.d.ts"
-    ],
-    "files": [
-        "scripts/wiprint.ts",
-        "typings/index.d.ts"
+    "rootDir": "src/",
+    "outDir": "dist/",
+    "types": [
+      "vss-web-extension-sdk"
     ]
+  },
+  "files": [
+    "src/wiprint.ts", "src/wiprint-admin.ts"
+  ]
 }
