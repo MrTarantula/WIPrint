@@ -45,6 +45,10 @@ Right-click on a query and select `Print All`.
 
 ## Changelog
 
+### v2.0.1
+
+* Workaround for strings incorrectly being parsed as bad dates, resulting in missing fields
+
 ### v2.0.0
 
 * Added per-work-item configuration

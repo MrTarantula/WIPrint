@@ -115,9 +115,9 @@ function prepare(workItems: Models.WorkItem[]) {
                                 });
                             } else {
                                 // dates that didn't pass strict validation above shoule be dropped
-                                if (!moment(item.fields[field.referenceName], "YYYY-MM-DDTHH:mm:ss.SSSZ").isValid()) {
-                                    insertText += `<p><b>${field.name}:</b> ${item.fields[field.referenceName]}</p>`;
-                                }
+                                // if (!moment(item.fields[field.referenceName], "YYYY-MM-DDTHH:mm:ss.SSSZ").isValid()) {
+                                insertText += `<p><b>${field.name}:</b> ${item.fields[field.referenceName]}</p>`;
+                                // }
                             }
                         }
                     });
