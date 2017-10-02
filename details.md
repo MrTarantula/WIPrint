@@ -45,6 +45,10 @@ Right-click on a query and select `Print All`.
 
 ## Changelog
 
+### v2.0.2
+
+* Fixed a bug not allowing special characters in work item field names/ids
+
 ### v2.0.1
 
 * Workaround for strings incorrectly being parsed as bad dates, resulting in missing fields

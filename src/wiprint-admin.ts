@@ -274,5 +274,5 @@ declare global {
 }
 
 String.prototype.sanitize = function (this: string) {
-    return this.replace(/\s/g, "-");
+    return this.replace(/\s/g, "-").replace(/[^a-z0-9]/gi, "");
 };
