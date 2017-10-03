@@ -57,7 +57,7 @@ const printWorkItems = {
 
         return [{
             action: (actionContext: IActionContext) => {
-                const wids = actionContext.workItemIds || actionContext.ids || [actionContext.workItemId];
+                const wids = actionContext.workItemIds || actionContext.ids || [actionContext.workItemId || actionContext.id];
 
                 return client.getWorkItems(wids, undefined, undefined, Models.WorkItemExpand.Fields)
                     .then((workItems) => print(workItems));

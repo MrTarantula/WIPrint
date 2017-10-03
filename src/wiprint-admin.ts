@@ -163,6 +163,8 @@ function makeClean() {
     dirty = false;
     $("#save").prop("disabled", true);
     $("#cancel").prop("disabled", true);
+    activeAll = null;
+    activeSelected = null;
 }
 
 function populateAll() {
@@ -175,6 +177,8 @@ function populateAll() {
                 `</li>`);
             $(`#all-${field.name.sanitize()}`).click((e) => {
                 selectAll(field.name);
+            }).dblclick((e) => {
+                $("#push").click();
             });
         });
 }
@@ -187,6 +191,8 @@ function populateSelected() {
             `</li>`);
         $(`#selected-${field.name.sanitize()}`).click((e) => {
             selectSelected(field.name);
+        }).dblclick((e) => {
+            $("#pop").click();
         });
     });
 }
@@ -201,11 +207,13 @@ $("#push").click((e) => {
         populateAll();
         if (allFields.length > 0) {
             $(`#all-${allFields[allFields[allIndex] ? allIndex : allIndex - 1].name.sanitize()}`).click();
+            scroll($(`#all-${allFields[allFields[allIndex] ? allIndex : allIndex - 1].name.sanitize()}`));
         } else {
             activeAll = null;
         }
         populateSelected();
         $(`#selected-${selectedFields[selectedFields[selectedIndex + 1] ? selectedIndex + 1 : selectedIndex].name.sanitize()}`).click();
+        scroll($(`#selected-${selectedFields[selectedFields[selectedIndex + 1] ? selectedIndex + 1 : selectedIndex].name.sanitize()}`));
         makeDirty();
     }
 });
@@ -219,8 +227,10 @@ $("#pop").click((e) => {
         populateSelected();
         populateAll();
         $(`#all-${allFields[allFields.indexOf(activeSelected)].name.sanitize()}`).click();
+        scroll($(`#all-${allFields[allFields.indexOf(activeSelected)].name.sanitize()}`));
         if (selectedFields.length > 0) {
             $(`#selected-${selectedFields[selectedFields[selectedIndex] ? selectedIndex : selectedIndex - 1].name.sanitize()}`).click();
+            scroll($(`#selected-${selectedFields[selectedFields[selectedIndex] ? selectedIndex : selectedIndex - 1].name.sanitize()}`));
         } else {
             activeSelected = null;
         }
@@ -234,6 +244,8 @@ $("#top").click((e) => {
         selectedFields.unshift(activeSelected);
         populateSelected();
         $(`#selected-${selectedFields[0].name.sanitize()}`).click();
+        scroll($(`#selected-${selectedFields[0].name.sanitize()}`));
+        makeDirty();
     }
 });
 
@@ -243,6 +255,8 @@ $("#bottom").click((e) => {
         selectedFields.push(activeSelected);
         populateSelected();
         $(`#selected-${selectedFields[selectedFields.length - 1].name.sanitize()}`).click();
+        scroll($(`#selected-${selectedFields[selectedFields.length - 1].name.sanitize()}`));
+        makeDirty();
     }
 });
 
@@ -253,6 +267,8 @@ $("#up").click((e) => {
         selectedFields.splice(index - 1, 0, activeSelected);
         populateSelected();
         $(`#selected-${selectedFields[index - 1].name.sanitize()}`).click();
+        scroll($(`#selected-${selectedFields[index - 1].name.sanitize()}`));
+        makeDirty();
     }
 });
 
@@ -263,6 +279,8 @@ $("#down").click((e) => {
         selectedFields.splice(index + 1, 0, activeSelected);
         populateSelected();
         $(`#selected-${selectedFields[selectedFields[index + 1] ? index + 1 : index].name.sanitize()}`).click();
+        scroll($(`#selected-${selectedFields[selectedFields[index + 1] ? index + 1 : index].name.sanitize()}`));
+        makeDirty();
     }
 });
 
@@ -276,3 +294,9 @@ declare global {
 String.prototype.sanitize = function (this: string) {
     return this.replace(/\s/g, "-").replace(/[^a-z0-9]/gi, "");
 };
+
+function scroll(child: JQuery): void {
+    const parent = child.parent();
+
+    parent.scrollTop(child.offset().top - parent.offset().top + parent.scrollTop() - 296);
+}

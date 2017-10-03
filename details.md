@@ -45,6 +45,14 @@ Right-click on a query and select `Print All`.
 
 ## Changelog
 
+### v2.0.3
+
+* Added double-click functionality to field picker
+* Field picker scrolls to newly added field
+* Fixed bug that prevented printing from board
+* Fixed bug where saving wasn't enabled when only sorting fields
+* Fixed bug where Undo button wasn't clearing the selected field
+
 ### v2.0.2
 
 * Fixed a bug not allowing special characters in work item field names/ids
