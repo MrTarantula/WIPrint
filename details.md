@@ -45,6 +45,10 @@ Right-click on a query and select `Print All`.
 
 ## Changelog
 
+### v2.0.4
+
+* Fixed broken string sanitization
+
 ### v2.0.3
 
 * Added double-click functionality to field picker

@@ -292,7 +292,7 @@ declare global {
 }
 
 String.prototype.sanitize = function (this: string) {
-    return this.replace(/\s/g, "-").replace(/[^a-z0-9]/gi, "");
+    return this.replace(/\s/g, "-").replace(/[^a-z0-9\-]/gi, "");
 };
 
 function scroll(child: JQuery): void {
