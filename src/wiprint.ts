@@ -135,7 +135,10 @@ function print(workItems: Models.WorkItem[]) {
         });
     }).then(() => {
         window.focus(); // needed for IE
-        window.print();
+        let ieprint = document.execCommand("print", false, null);
+        if (!ieprint) {
+            window.print();
+        }
         document.getElementById("workitems").innerHTML = "";
     });
 }
