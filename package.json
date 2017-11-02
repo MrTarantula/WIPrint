@@ -12,6 +12,7 @@
     "webpack": "webpack --progress --colors --config webpack.config.js --output-path ./dist -p"
   },
   "devDependencies": {
+    "amd-loader":"^0.0.8",
     "rimraf": "^2.6.1",
     "tfx-cli": "^0.4.5",
     "typescript": "2.3.4",

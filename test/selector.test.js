@@ -216,23 +216,23 @@ describe("Selector", function() {
   });
 
   describe("Top", function() {
-      it("should move one item to the top", function () {
-          var sel = new selector.Selector(testArray, "key", "val");
-          sel.select(4);
-          sel.top();
-          assert.equal(sel.items[0].index, testArray[4].key);
+    it("should move one item to the top", function() {
+      var sel = new selector.Selector(testArray, "key", "val");
+      sel.select(4);
+      sel.top();
+      assert.equal(sel.items[0].index, testArray[4].key);
     });
 
-      it("should move two sequential items to the top", function () {
-        var sel = new selector.Selector(testArray, "key", "val");
+    it("should move two sequential items to the top", function() {
+      var sel = new selector.Selector(testArray, "key", "val");
     });
 
-      it("should move two sequential items to the top", function () {
-        var sel = new selector.Selector(testArray, "key", "val");
+    it("should move two sequential items to the top", function() {
+      var sel = new selector.Selector(testArray, "key", "val");
     });
 
-      it("should move two non-sequential items to the top", function () {
-        var sel = new selector.Selector(testArray, "key", "val");
+    it("should move two non-sequential items to the top", function() {
+      var sel = new selector.Selector(testArray, "key", "val");
     });
   });
 
@@ -247,9 +247,9 @@ describe("Selector", function() {
   });
 
   describe("Add", function() {
-      it("should add an item to empty selector", function () {
-          var sel = new selector.Selector(testArray, "key", "val");
-          var newItem = {}  
+    it("should add an item to empty selector", function() {
+      var sel = new selector.Selector(testArray, "key", "val");
+      var newItem = {};
     });
 
     it("should add an item to empty selector and select it", function() {});
@@ -282,11 +282,17 @@ describe("Selector", function() {
 
     it("should add multiple items below the highest selected item and select only the added items", function() {});
   });
-  describe("Remove", function() {});
-  it("should remove an item", function() {});
-  it("should remove an item and select the item at the removed item's previous index", function() {});
-  it("should remove the bottom item and select the new bottom item", function() {});
-  it("should remove the last remaining item and select nothing", function() {});
-  it("should remove multiple items", function() {});
-  it("should remove multiple items and select the item at the highest removed item's index", function() {});
+  describe("Remove", function() {
+    it("should remove an item", function() {});
+
+    it("should remove an item and select the item at the removed item's previous index", function() {});
+
+    it("should remove the bottom item and select the new bottom item", function() {});
+
+    it("should remove the last remaining item and select nothing", function() {});
+
+    it("should remove multiple items", function() {});
+
+    it("should remove multiple items and select the item at the highest removed item's index", function() {});
+  });
 });
