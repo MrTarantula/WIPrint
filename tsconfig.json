@@ -10,6 +10,8 @@
     ]
   },
   "files": [
-    "src/wiprint.ts", "src/wiprint-admin.ts"
+    "src/wiprint.ts", 
+    "src/wiprint-admin.ts",
+    "src/selector.ts"
   ]
 }

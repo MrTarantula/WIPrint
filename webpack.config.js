@@ -5,7 +5,8 @@ module.exports = {
     target: "web",
     entry: {
         wiprint: "./src/wiprint.ts",
-        "wiprint-admin": "./src/wiprint-admin.ts"
+        "wiprint-admin": "./src/wiprint-admin.ts",
+        selector: "./src/selector.ts"
     },
     devtool: "source-map",
     output: {
