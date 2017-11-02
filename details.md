@@ -45,6 +45,10 @@ Right-click on a query and select `Print All`.
 
 ## Changelog
 
+### v2.2.1
+
+* Added conversation history
+
 ### v2.0.5
 
 * Fixed bug when printing from work item form in IE

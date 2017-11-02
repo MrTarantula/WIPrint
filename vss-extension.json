@@ -1,7 +1,7 @@
 {
   "manifestVersion": 1,
   "id": "wiprint",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "name": "Work Item Print",
   "scopes": [
     "vso.work",
