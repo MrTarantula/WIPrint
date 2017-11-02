@@ -1,9 +1,12 @@
 {
   "scripts": {
     "build": "npm run lint && npm run clean && npm run webpack",
+    "build:dev": "npm run lint && npm run clean && npm run webpack && npm run package:dev",
     "webpack": "webpack --progress --colors --config webpack.config.js --output-path ./dist -p",
     "postbuild": "npm run package",
     "package": "tfx extension create  --rev-version",
+    "package:dev": "tfx extension create --overrides-file vss-extension.dev.json --rev-version",
+    "publish": "tfx extension publish",
     "gallery-publish": "tfx extension publish --rev-version",
     "clean": "rimraf ./dist && rimraf ./*.vsix",
     "lint": "tslint -c tslint.json 'src/*.ts'"
@@ -23,7 +26,7 @@
     "@types/q": "0.0.32",
     "moment": "^2.18.1",
     "office-ui-fabric-js": "^1.4.0",
-    "vss-web-extension-sdk": "^2.117.0"
+    "vss-web-extension-sdk": "1.109.0"
   },
   "name": "wiprint",
   "private": true,
