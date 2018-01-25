@@ -252,15 +252,27 @@ function prepare(workItems: Models.WorkItem[]) {
                     }
                     break;
                   default:
-                    insertText += `<p><b>${field.name}:</b> ${item.fields[
-                      field.referenceName
-                    ]}</p>`;
+                    insertText += `<p><b>${field.name}:</b> ${
+                      item.fields[field.referenceName]
+                    }</p>`;
                     break;
                 }
               } else {
-                insertText += `<p><b>${field.name}:</b> ${item.fields[
-                  field.referenceName
-                ]}</p>`;
+                insertText += `<p><b>${field.name}:</b> ${
+                  item.fields[field.referenceName]
+                }</p>`;
+              }
+            } else if (field.referenceName === "System.History") {
+              if (history.length > 0) {
+                insertText += `<p><b>${field.name}</b></p>`;
+                history.forEach(comment => {
+                  insertText += `<div class="history"><b>${moment(
+                    comment.revisedDate
+                  ).format(localeTime)} ${comment.revisedBy.name.substring(
+                    0,
+                    comment.revisedBy.name.indexOf("<") - 1
+                  )}:</b><br> ${comment.text}</div>`;
+                });
               }
             }
           });
@@ -273,15 +285,21 @@ function prepare(workItems: Models.WorkItem[]) {
 
 // VSTS/2017
 VSS.register(
-  `${extensionContext.publisherId}.${extensionContext.extensionId}.print-work-item`,
+  `${extensionContext.publisherId}.${
+    extensionContext.extensionId
+  }.print-work-item`,
   printWorkItems
 );
 VSS.register(
-  `${extensionContext.publisherId}.${extensionContext.extensionId}.print-query-toolbar`,
+  `${extensionContext.publisherId}.${
+    extensionContext.extensionId
+  }.print-query-toolbar`,
   printQueryToolbar
 );
 VSS.register(
-  `${extensionContext.publisherId}.${extensionContext.extensionId}.print-query-menu`,
+  `${extensionContext.publisherId}.${
+    extensionContext.extensionId
+  }.print-query-menu`,
   printQueryToolbar
 );
 

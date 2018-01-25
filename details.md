@@ -45,6 +45,10 @@ Right-click on a query and select `Print All`.
 
 ## Changelog
 
+### v2.2.2
+
+* VSTS API broke conversation history. Fixed.
+
 ### v2.2.1
 
 * Added conversation history
