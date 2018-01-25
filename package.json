@@ -12,21 +12,20 @@
     "lint": "tslint -c tslint.json 'src/*.ts'"
   },
   "devDependencies": {
-    "rimraf": "^2.6.1",
-    "tfx-cli": "^0.4.5",
-    "typescript": "2.3.4",
-    "cpx": "^1.5.0",
-    "ts-loader": "^2.0.0",
-    "tslint": "^5.2.0",
+    "rimraf": "^2.6.2",
+    "tfx-cli": "^0.5.3",
+    "typescript": "2.6.2",
+    "ts-loader": "^3.3.1",
+    "tslint": "^5.9.1",
     "tslint-loader": "^3.5.3",
-    "webpack": "^2.5.1"
+    "webpack": "^3.10.0"
   },
   "dependencies": {
-    "@types/jquery": "^2.0.34",
-    "@types/q": "0.0.32",
-    "moment": "^2.18.1",
-    "office-ui-fabric-js": "^1.4.0",
-    "vss-web-extension-sdk": "1.109.0"
+    "@types/jquery": "^3.3.0",
+    "@types/q": "1.0.7",
+    "moment": "^2.20.1",
+    "office-ui-fabric-js": "^1.5.0",
+    "vss-web-extension-sdk": "^5.127.0"
   },
   "name": "wiprint",
   "private": true,
