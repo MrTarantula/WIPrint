@@ -45,6 +45,9 @@ Right-click on a query and select `Print All`.
 
 ## Changelog
 
+### v2.2.3
+
+* Added a small delay to allow images to load before printing.
 ### v2.2.2
 
 * VSTS API broke conversation history. Fixed.

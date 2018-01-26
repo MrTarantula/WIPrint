@@ -87,11 +87,13 @@ const printWorkItems = {
               );
 
               window.focus(); // needed for IE
-              let ieprint = document.execCommand("print", false, null);
-              if (!ieprint) {
-                window.print();
-              }
-              document.getElementById("workitems").innerHTML = "";
+              setTimeout(function() {
+                let ieprint = document.execCommand("print", false, null);
+                if (!ieprint) {
+                  window.print();
+                }
+                document.getElementById("workitems").innerHTML = "";
+              }, 250);
             });
         },
         icon: "static/img/print14.png",
@@ -133,11 +135,13 @@ const printQueryToolbar = {
                   );
 
                   window.focus(); // needed for IE
-                  let ieprint = document.execCommand("print", false, null);
-                  if (!ieprint) {
-                    window.print();
-                  }
-                  document.getElementById("workitems").innerHTML = "";
+                  setTimeout(function() {
+                    let ieprint = document.execCommand("print", false, null);
+                    if (!ieprint) {
+                      window.print();
+                    }
+                    document.getElementById("workitems").innerHTML = "";
+                  }, 250);
                 });
             });
         },
@@ -247,7 +251,7 @@ function prepare(workItems: Models.WorkItem[]) {
                         )} ${comment.revisedBy.name.substring(
                           0,
                           comment.revisedBy.name.indexOf("<") - 1
-                        )}:</b><br> ${comment.text}</div>`;
+                        )}:</b><br> ${comment.text.htmlize()}</div>`;
                       });
                     }
                     break;
@@ -271,7 +275,7 @@ function prepare(workItems: Models.WorkItem[]) {
                   ).format(localeTime)} ${comment.revisedBy.name.substring(
                     0,
                     comment.revisedBy.name.indexOf("<") - 1
-                  )}:</b><br> ${comment.text}</div>`;
+                  )}:</b><br> ${comment.text.htmlize()}</div>`;
                 });
               }
             }
