@@ -45,6 +45,9 @@ Right-click on a query and select `Print All`.
 
 ## Changelog
 
+### v2.2.21
+
+* Fixed bug due to VSTS API change. Dropped support for TFS 2015
 ### v2.2.3
 
 * Added a small delay to allow images to load before printing.

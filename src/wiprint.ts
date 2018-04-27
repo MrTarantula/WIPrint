@@ -2,9 +2,9 @@ import WITClient = require("TFS/WorkItemTracking/RestClient");
 import Models = require("TFS/WorkItemTracking/Contracts");
 import moment = require("moment");
 import Q = require("q");
+import { ContainerItemStatus } from "VSS/FileContainer/Contracts";
 
 const extensionContext = VSS.getExtensionContext();
-const dataService = VSS.getService(VSS.ServiceIds.ExtensionData);
 const vssContext = VSS.getWebContext();
 const client = WITClient.getClient();
 
@@ -81,19 +81,20 @@ const printWorkItems = {
             .then(pages => {
               return Q.all(pages);
             })
-            .then(pages => {
-              pages.forEach(
-                page => (document.getElementById("workitems").innerHTML += page)
-              );
+            .then((pages: any) => {
+              const items = document.createElement("div");
+              items.setAttribute("id", "workitems");
+              pages.forEach(page => (items.innerHTML += page));
+              document.body.appendChild(items);
 
-              window.focus(); // needed for IE
-              setTimeout(function() {
+              setTimeout(() => {
+                window.focus(); // needed for IE
                 let ieprint = document.execCommand("print", false, null);
                 if (!ieprint) {
-                  window.print();
+                  (window as any).print();
                 }
-                document.getElementById("workitems").innerHTML = "";
-              }, 250);
+                items.parentElement.removeChild(items);
+              }, 1000);
             });
         },
         icon: "static/img/print14.png",
@@ -128,20 +129,20 @@ const printQueryToolbar = {
                 .then(pages => {
                   return Q.all(pages);
                 })
-                .then(pages => {
-                  pages.forEach(
-                    page =>
-                      (document.getElementById("workitems").innerHTML += page)
-                  );
+                .then((pages: any) => {
+                  const items = document.createElement("div");
+                  items.setAttribute("id", "workitems");
+                  pages.forEach(page => (items.innerHTML += page));
+                  document.body.appendChild(items);
 
-                  window.focus(); // needed for IE
-                  setTimeout(function() {
+                  setTimeout(() => {
+                    window.focus(); // needed for IE
                     let ieprint = document.execCommand("print", false, null);
                     if (!ieprint) {
-                      window.print();
+                      (window as any).print();
                     }
-                    document.getElementById("workitems").innerHTML = "";
-                  }, 250);
+                    items.parentElement.removeChild(items);
+                  }, 1000);
                 });
             });
         },
@@ -167,50 +168,40 @@ function getWorkItemFields() {
   return client.getFields();
 }
 
-function getFields(workItem: Models.WorkItem) {
-  return dataService.then((service: IExtensionDataService) => {
-    return service
-      .getValue(
+function getFields(
+  workItem: Models.WorkItem
+): IPromise<Models.WorkItemTypeFieldInstance[]> {
+  return VSS.getService(VSS.ServiceIds.ExtensionData).then(
+    (service: IExtensionDataService) => {
+      return service.getValue<Models.WorkItemTypeFieldInstance[]>(
         `wiprint-${workItem.fields["System.WorkItemType"].sanitize()}`,
         {
           scopeType: "user",
           defaultValue: dummy as Models.WorkItemTypeFieldInstance[]
         }
-      )
-      .then(
-        (data: Models.WorkItemTypeFieldInstance[]) =>
-          data.length > 0 ? data : dummy
       );
-  });
+    }
+  );
 }
 
 function getHistory(workItem: Models.WorkItem) {
-  if (vssContext.account.name === "TEAM FOUNDATION") {
-    return client.getHistory(workItem.id).then(comments => {
-      return comments.map(comment => {
-        return {
-          revisedBy: comment.revisedBy,
-          revisedDate: comment.revisedDate,
-          revision: comment.rev,
-          text: comment.value
-        } as Models.WorkItemComment;
-      });
-    });
-  }
-
-  return client.getComments(workItem.id).then(comments => comments.comments);
+  return client.getComments(workItem.id);
 }
 
 function prepare(workItems: Models.WorkItem[]) {
   return workItems.map(item => {
-    return Q.all([getFields(item), getHistory(item), getWorkItemFields()])
+    return Q.all([
+      getFields(item) as any,
+      getHistory(item),
+      getWorkItemFields()
+    ])
       .then(results => {
         return results;
       })
       .spread(
         (
           fields: Models.WorkItemTypeFieldInstance[],
-          history: Models.WorkItemComment[],
+          history: Models.WorkItemComments,
           allFields: Models.WorkItemField[]
         ) => {
           let insertText =
@@ -241,17 +232,25 @@ function prepare(workItems: Models.WorkItem[]) {
                     ].htmlize()}</p>`;
                     break;
                   case Models.FieldType.History:
-                    if (history.length > 0) {
+                    if (history.count > 0) {
                       insertText += `<p><b>${field.name}</b></p>`;
-                      history.forEach(comment => {
-                        insertText += `<div class="history"><b>${moment(
-                          comment.revisedDate
-                        ).format(
-                          localeTime
-                        )} ${comment.revisedBy.name.substring(
-                          0,
-                          comment.revisedBy.name.indexOf("<") - 1
-                        )}:</b><br> ${comment.text.htmlize()}</div>`;
+                      history.comments.forEach(comment => {
+                        if (comment.revisedBy.name) {
+                          insertText += `<div class="history"><b>${moment(
+                            comment.revisedDate
+                          ).format(
+                            localeTime
+                          )} ${comment.revisedBy.name.substring(
+                            0,
+                            comment.revisedBy.name.indexOf("<") - 1
+                          )}:</b><br> ${comment.text.htmlize()}</div>`;
+                        } else {
+                          insertText += `<div class="history"><b>${moment(
+                            comment.revisedDate
+                          ).format(localeTime)} ${
+                            comment.revisedBy.displayName
+                          }:</b><br> ${comment.text.htmlize()}</div>`;
+                        }
                       });
                     }
                     break;
@@ -267,15 +266,23 @@ function prepare(workItems: Models.WorkItem[]) {
                 }</p>`;
               }
             } else if (field.referenceName === "System.History") {
-              if (history.length > 0) {
+              if (history.count > 0) {
                 insertText += `<p><b>${field.name}</b></p>`;
-                history.forEach(comment => {
-                  insertText += `<div class="history"><b>${moment(
-                    comment.revisedDate
-                  ).format(localeTime)} ${comment.revisedBy.name.substring(
-                    0,
-                    comment.revisedBy.name.indexOf("<") - 1
-                  )}:</b><br> ${comment.text.htmlize()}</div>`;
+                history.comments.forEach(comment => {
+                  if (comment.revisedBy.name) {
+                    insertText += `<div class="history"><b>${moment(
+                      comment.revisedDate
+                    ).format(localeTime)} ${comment.revisedBy.name.substring(
+                      0,
+                      comment.revisedBy.name.indexOf("<") - 1
+                    )}:</b><br> ${comment.text.htmlize()}</div>`;
+                  } else {
+                    insertText += `<div class="history"><b>${moment(
+                      comment.revisedDate
+                    ).format(localeTime)} ${
+                      comment.revisedBy.displayName
+                    }:</b><br> ${comment.text.htmlize()}</div>`;
+                  }
                 });
               }
             }
@@ -287,7 +294,6 @@ function prepare(workItems: Models.WorkItem[]) {
   });
 }
 
-// VSTS/2017
 VSS.register(
   `${extensionContext.publisherId}.${
     extensionContext.extensionId
@@ -306,7 +312,3 @@ VSS.register(
   }.print-query-menu`,
   printQueryToolbar
 );
-
-// 2015
-VSS.register(`print-work-item`, printWorkItems);
-VSS.register(`print-query-menu`, printQueryToolbar);
