@@ -1,28 +1,26 @@
 {
   "manifestVersion": 1,
   "id": "wiprint",
-  "version": "2.2.3",
+  "version": "2.2.21",
   "name": "Work Item Print",
-  "scopes": [
-    "vso.work",
-    "vso.extension.data_write"
-  ],
+  "scopes": ["vso.work", "vso.extension.data_write"],
   "description": "Print work items from query toolbar or context menu.",
   "publisher": "mrtarantula",
   "public": true,
   "icons": {
     "default": "static/img/logo.png"
   },
-  "targets": [{
-    "id": "Microsoft.VisualStudio.Services"
-  }],
-  "categories": [
-    "Plan and track"
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    },
+    {
+      "id": "Microsoft.TeamFoundation.Server",
+      "version": "[15.0,)"
+    }
   ],
-  "tags": [
-    "print",
-    "work items"
-  ],
+  "categories": ["Plan and track"],
+  "tags": ["print", "work items"],
   "content": {
     "details": {
       "path": "details.md"
@@ -47,7 +45,8 @@
     "color": "rgb(255, 255, 255)",
     "theme": "light"
   },
-  "files": [{
+  "files": [
+    {
       "path": "static/img",
       "addressable": true
     },
@@ -84,13 +83,12 @@
       "packagePath": "lib/css"
     }
   ],
-  "contributions": [{
+  "contributions": [
+    {
       "id": "print-work-item",
       "type": "ms.vss-web.action",
       "description": "Print a work item.",
-      "targets": [
-        "ms.vss-work-web.work-item-context-menu"
-      ],
+      "targets": ["ms.vss-work-web.work-item-context-menu"],
       "properties": {
         "uri": "static/wiprint.html"
       }
@@ -99,9 +97,7 @@
       "id": "print-query-menu",
       "type": "ms.vss-web.action",
       "description": "Print a work item.",
-      "targets": [
-        "ms.vss-work-web.work-item-query-menu"
-      ],
+      "targets": ["ms.vss-work-web.work-item-query-menu"],
       "properties": {
         "uri": "static/wiprint.html"
       }
@@ -110,9 +106,7 @@
       "id": "print-query-toolbar",
       "type": "ms.vss-web.action",
       "description": "Print a work item.",
-      "targets": [
-        "ms.vss-work-web.work-item-query-results-toolbar-menu"
-      ],
+      "targets": ["ms.vss-work-web.work-item-query-results-toolbar-menu"],
       "properties": {
         "uri": "static/wiprint.html"
       }
@@ -120,9 +114,7 @@
     {
       "id": "wiprint-admin",
       "type": "ms.vss-web.hub",
-      "targets": [
-        "ms.vss-work-web.work-hub-group"
-      ],
+      "targets": ["ms.vss-work-web.work-hub-group"],
       "properties": {
         "name": "Work Item Print",
         "order": 9999,
