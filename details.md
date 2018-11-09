@@ -2,8 +2,7 @@
 
 Visual Studio Team Services and Team Foundation Server don't make it easy to print work items. This extension will allow printing of single work items, selected multiple work items, or all items in a query. Limit is ~330 work items at once.
 
-
-## Configure Printing  -  **`NEW in V2.0`** 
+## Configure Printing  -  **`NEW in V2.0`**
 
 A new configuration screen has been added. Select a work item type, choose the fields you want to print, put them in order, and then save. Then print your work items. Configuration is per user.
 
@@ -14,7 +13,6 @@ A new configuration screen has been added. Select a work item type, choose the f
 Right-click on a work item and select `Print`:
 
 ![Print work item from context menu](static/img/single-context.gif)
-
 
 ***OR***
 
@@ -34,7 +32,6 @@ Run a query, then select `Print All` from the toolbar:
 
 ![Print work items in a query](static/img/query-button.gif)
 
-
 ## Print Query Without Running
 
 Right-click on a query and select `Print All`.
@@ -45,12 +42,20 @@ Right-click on a query and select `Print All`.
 
 ## Changelog
 
+### v2.3.0
+
+* Added link to work item title (useful for printing to PDF)
+* Added icon for Azure DevOps menu
+* Dependency updates
+
 ### v2.2.21
 
 * Fixed bug due to VSTS API change. Dropped support for TFS 2015
+
 ### v2.2.3
 
 * Added a small delay to allow images to load before printing.
+
 ### v2.2.2
 
 * VSTS API broke conversation history. Fixed.

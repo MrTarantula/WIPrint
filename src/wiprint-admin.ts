@@ -1,9 +1,6 @@
 import Context = require("VSS/Context");
 import WITClient = require("TFS/WorkItemTracking/RestClient");
 import Models = require("TFS/WorkItemTracking/Contracts");
-import Controls = require("VSS/Controls");
-import Grids = require("VSS/Controls/Grids");
-import Combos = require("VSS/Controls/Combos");
 import Dialogs = require("VSS/Controls/Dialogs");
 
 const tfsContext = Context.getDefaultWebContext();
@@ -19,7 +16,6 @@ let dirty: boolean = false;
 let activeType: Models.WorkItemType;
 let activeSelected: Models.WorkItemTypeFieldInstance;
 let activeAll: Models.WorkItemTypeFieldInstance;
-let typesList: string;
 
 function selectSelected(name: string): void {
   if (activeSelected) {
@@ -178,20 +174,22 @@ function makeClean() {
 
 function populateAll() {
   $("#allList").html("");
-  allFields.sort((a, b) => (a.name > b.name ? 1 : -1)).forEach(field => {
-    $("#allList").append(
-      `<li id="all-${field.name.sanitize()}" class="ms-ListItem">` +
-        `<span class="ms-ListItem-secondaryText">${field.name}</span>` +
-        `</li>`
-    );
-    $(`#all-${field.name.sanitize()}`)
-      .click(e => {
-        selectAll(field.name);
-      })
-      .dblclick(e => {
-        $("#push").click();
-      });
-  });
+  allFields
+    .sort((a, b) => (a.name > b.name ? 1 : -1))
+    .forEach(field => {
+      $("#allList").append(
+        `<li id="all-${field.name.sanitize()}" class="ms-ListItem">` +
+          `<span class="ms-ListItem-secondaryText">${field.name}</span>` +
+          `</li>`
+      );
+      $(`#all-${field.name.sanitize()}`)
+        .click(e => {
+          selectAll(field.name);
+        })
+        .dblclick(e => {
+          $("#push").click();
+        });
+    });
 }
 
 function populateSelected() {

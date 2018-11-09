@@ -1,7 +1,7 @@
 {
   "manifestVersion": 1,
   "id": "wiprint",
-  "version": "2.2.21",
+  "version": "2.3.0",
   "name": "Work Item Print",
   "scopes": ["vso.work", "vso.extension.data_write"],
   "description": "Print work items from query toolbar or context menu.",
@@ -118,7 +118,13 @@
       "properties": {
         "name": "Work Item Print",
         "order": 9999,
-        "uri": "static/wiprint-admin.html"
+        "uri": "static/wiprint-admin.html",
+        "iconAsset": "mrtarantula.wiprint/static/img/print16.png",
+        "_sharedData": {
+          "assets": [
+            "mrtarantula.wiprint/static/img/print16.png"
+          ]
+        }
       }
     }
   ]

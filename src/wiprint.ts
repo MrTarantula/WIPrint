@@ -2,7 +2,6 @@ import WITClient = require("TFS/WorkItemTracking/RestClient");
 import Models = require("TFS/WorkItemTracking/Contracts");
 import moment = require("moment");
 import Q = require("q");
-import { ContainerItemStatus } from "VSS/FileContainer/Contracts";
 
 const extensionContext = VSS.getExtensionContext();
 const vssContext = VSS.getWebContext();
@@ -205,8 +204,8 @@ function prepare(workItems: Models.WorkItem[]) {
           allFields: Models.WorkItemField[]
         ) => {
           let insertText =
-            `<div class="item"><h2>${item.fields["System.WorkItemType"]} ` +
-            `${item.id} - ${item.fields["System.Title"]}</h2>`;
+            `<div class="item"><h2><a class="wilink" href="${item.url}">${item.fields["System.WorkItemType"]} ` +
+            `${item.id} - ${item.fields["System.Title"]}</a></h2>`;
           fields.forEach(field => {
             const fieldRef = allFields.filter(
               f => f.referenceName === field.referenceName
