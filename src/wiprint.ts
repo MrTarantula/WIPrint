@@ -159,7 +159,7 @@ function getWorkItems(wids: number[]): IPromise<Models.WorkItem[]> {
     wids,
     undefined,
     undefined,
-    Models.WorkItemExpand.Fields
+    Models.WorkItemExpand.Links
   );
 }
 
@@ -204,7 +204,7 @@ function prepare(workItems: Models.WorkItem[]) {
           allFields: Models.WorkItemField[]
         ) => {
           let insertText =
-            `<div class="item"><h2><a class="wilink" href="${item.url}">${item.fields["System.WorkItemType"]} ` +
+            `<div class="item"><h2><a class="wilink" href="${item._links.html.href}">${item.fields["System.WorkItemType"]} ` +
             `${item.id} - ${item.fields["System.Title"]}</a></h2>`;
           fields.forEach(field => {
             const fieldRef = allFields.filter(

@@ -1,5 +1,6 @@
 {
     "id": "wiprint-dev",
+    "version": "2.3.1",
     "name": "DEV Work Item Print",
     "public": false
 }

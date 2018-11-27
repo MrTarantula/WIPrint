@@ -42,6 +42,10 @@ Right-click on a query and select `Print All`.
 
 ## Changelog
 
+### v2.3.1
+
+* Fixed link when printing to PDF
+
 ### v2.3.0
 
 * Added link to work item title (useful for printing to PDF)
